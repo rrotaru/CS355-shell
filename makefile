@@ -1,2 +1,2 @@
-novash: functions.c shell.c
-	cc functions.c shell.c -o novash -I.
+novash: src/*.c
+	cc src.*.c -o build/novash
