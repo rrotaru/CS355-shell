@@ -13,17 +13,17 @@
 
 /* read file into string buffer. returns number of chars read
  * REMEMBER to free() buffer after finishing */
-int file_read(char* filename, char* buffer) {
+long file_read(char* filename, char** buffer) {
     FILE *file;
-    int filesize;
+    long filesize = -1;
 
     if ( (file = fopen(filename, "r")) != NULL ) {
-        if (fseek(file, 0, SEEK_END) == 0) {
+        if (fseek(file, 0L, SEEK_END) == 0) {
             filesize = ftell(file);
             if (filesize != -1) {
-                buffer = malloc (sizeof(char) * filesize);
-                if (fseek(file, 0, SEEK_SET) != 0) {
-                    if (fread(buffer, sizeof(char), filesize, file) != 0) {
+                *buffer = malloc(sizeof(char) * filesize);
+                if (fseek(file, 0L, SEEK_SET) == 0) {
+                    if (fread(*buffer, sizeof(char), filesize, file) != 0) {
                         /* good */
                     }
                     if (feof(file)) { fprintf(stderr, "END OF FILE %s", filename); }
@@ -73,24 +73,29 @@ size_t trimwhitespace(char *out, size_t len, const char *str) {
   return out_size;
 }
 
-/* execute a number of commands form a string buffer */
-void batch_execute(char* str) {
-    char *command, *trimmedcommand;
-    size_t len;
+/* execute a number of commands from a file */
+void batch_execute(char* filename) {
+    char *str, *command, *trimmedcommand;
+    size_t size;
 
-    while ( (command = strtok(str, ";\n")) != NULL) {
-        len = trimwhitespace(trimmedcommand, strlen(command), command);
+    if ((file_read(filename, &str)) > 0) {
+        command = strtok(str, ";\n");
+        while (command != NULL) {
+            size = strlen(command) + 1;
+            trimmedcommand = malloc(sizeof(char) * size);
+            size = trimwhitespace(trimmedcommand, size, command);
 
-        /* if not a comment and not an empty string */
-        if (len > 0 && trimmedcommand[0] != '#') {
-            /* TODO: execute command */
-            printf("I should execute: %s", trimmedcommand);//replace this
+            /* if not a comment and not an empty string */
+            if (size > 1 && trimmedcommand[0] != '#') {
+                /* TODO: execute command */
+                printf("COMMAND: %s (todo: execute this)\n", trimmedcommand); //replace this
+            } else { printf("COMMENT: %s (todo: ignore)\n", trimmedcommand); }
+            
+            /* get next command */
+            free(trimmedcommand);
+            command = strtok(NULL, ";\n");
         }
-
-        /* get next command */
-        command = strtok(NULL, ";\n");
     }
-
-
+    free(str);
     return;
 }
