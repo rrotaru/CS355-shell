@@ -13,8 +13,8 @@ The shell is called NOVAshell.
 
 INDEX:
 
-- In progress
-x Finished
+[-] In progress
+[x] Finished
 
 TODO:
 
