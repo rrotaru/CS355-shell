@@ -5,11 +5,16 @@
 #include <unistd.h>
 #include <string.h>
 #include <stdio.h>
+#include <sys/wait.h>
+#include <signal.h>
 
 void print_shell_prompt()
 {
 	char wrk[1024];
-	printf("%s@%s:%s $ ", "nova", "ubuntu", getcwd(wrk, sizeof(wrk)));
+	char host[1024];
+	gethostname(host, sizeof(host));
+	getcwd(wrk, sizeof(wrk));
+	printf("%s@%s:%s $ ", "nova", host, wrk);
 
 	return;
 }
@@ -26,4 +31,32 @@ void get_user_input(char s[], int size)
 	}
 
 	return;
+}
+
+int fork_existing_program(char *av[])
+{
+	pid_t child_pid;
+        int child;
+        child_pid = fork();
+
+        if(child_pid == 0)
+        {
+                //Child
+		signal(SIGINT, SIG_DFL);
+                execvp(av[0], av);
+                exit(1);
+        }
+        else
+        { 
+                wait(&child);
+                if(child == 0)
+                {
+                        return 0;
+                }
+                else
+                {
+                        return -1;
+                }
+                exit(0);
+        }
 }

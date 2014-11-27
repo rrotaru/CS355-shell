@@ -33,9 +33,13 @@
 #include <unistd.h>
 #include <string.h>
 #include "functions.h"
+#include <stdlib.h>
+#include <fcntl.h>
+#include <signal.h>
 
 int main(int ac, char *av[])
 {
+	signal(SIGINT, SIG_IGN);
 	int shell_execute = 1;
 	char user_input[200];
 
