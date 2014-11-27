@@ -11,13 +11,18 @@ The shell is called NOVAshell.
 
 **test/** directory is for unit tests
 
+INDEX:
+
+- In progress
+x Finished
+
 TODO:
 
-[ ] run executable files - not taken
+[-] run executable files - Bryan (Functions Drafted, Needs Testing/Documentation)
 
-[ ] passing keyboard signals - not taken
+[-] passing keyboard signals - Bryan (Shell ignores CTRL-C)
 
-[ ] batch script support - Robert (work in progress)
+[-] batch script support - Robert (work in progress)
 
 [ ] control structure support - not taken
 
@@ -31,5 +36,5 @@ TODO:
 
 [ ] channeling (piping) between executables - not taken
 
-[x] exit command - Brian (finished)
+[x] exit command - Bryan (finished)
 
