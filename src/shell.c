@@ -30,32 +30,41 @@
 */
 
 #include <stdio.h>
-#include <unistd.h>
-#include <string.h>
-#include "functions.h"
 #include <stdlib.h>
+#include <unistd.h>
 #include <fcntl.h>
 #include <signal.h>
+#include <string.h>
+#include "functions.h"
+#include "batch.h"
 
-int main(int ac, char *av[])
-{
+int main(int ac, char *av[]) {
 	signal(SIGINT, SIG_IGN);
-	int shell_execute = 1;
+	int shell_execute = 1, i;
 	char user_input[200];
 
-	while(shell_execute)
-	{
-		print_shell_prompt();		
-		
-		get_user_input(user_input, sizeof(user_input));
+    /* Arguments passed to the shell are treated/executed as batch
+     * script files, then the shell exits */
+    if (ac > 1) {
+        /* run batch script */
+        for (i = 2; i < ac; i++) {
+            batch_execute(av[i]);
+        }
+    } else {
 
-		if( strcmp(user_input, "exit") == 0)
-		{
-			shell_execute = 0;
-		}
+        /* If no arguments, run interactively */
+        while(shell_execute) {
+            print_shell_prompt();		
+            
+            get_user_input(user_input, sizeof(user_input));
 
-		printf("%s\n", user_input);
-	}
+            if( strcmp(user_input, "exit") == 0) {
+                shell_execute = 0;
+            }
+
+            printf("%s\n", user_input);
+        }
+    }
 	
-	return 0;
+	return EXIT_SUCCESS;
 }
