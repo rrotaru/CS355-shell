@@ -33,6 +33,22 @@ void get_user_input(char s[], int size)
 	return;
 }
 
+void parse_user_input(char s[], char *spaced[], char *delim)
+{
+	char *token;
+        token = strtok(s, delim);
+
+	int k = 0;
+
+	while( token != NULL )
+	{
+		spaced[k] = token;
+		k = k + 1;
+		token = strtok(NULL, delim);
+	}
+
+}
+
 int fork_existing_program(char *av[])
 {
 	pid_t child_pid;
