@@ -47,12 +47,14 @@ void parse_user_input(char s[], char *spaced[], char *delim)
 		k = k + 1;
 		token = strtok(NULL, delim);
 	}
+	
+	spaced[k] = NULL;
 
 }
 
 int fork_existing_program(char *av[])
 {
-	pid_t child_pid;
+		pid_t child_pid;
         int child;
         child_pid = fork();
 
@@ -76,4 +78,28 @@ int fork_existing_program(char *av[])
                 }
                 exit(0);
         }
+}
+
+void ignore_signals()
+{
+	signal(1, SIG_IGN);
+	signal(3, SIG_IGN);
+	signal(6, SIG_IGN);
+	signal(8, SIG_IGN);
+	signal(11, SIG_IGN);
+	signal(13, SIG_IGN);
+	signal(14, SIG_IGN);
+	signal(15, SIG_IGN);	
+}
+
+void reset_signals()
+{
+	signal(1, SIG_DFL);
+	signal(3, SIG_DFL);
+	signal(6, SIG_DFL);
+	signal(8, SIG_DFL);
+	signal(11, SIG_DFL);
+	signal(13, SIG_DFL);
+	signal(14, SIG_DFL);
+	signal(15, SIG_DFL);
 }

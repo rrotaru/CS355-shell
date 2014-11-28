@@ -15,3 +15,9 @@ void parse_user_input(char s[], char *spaced[], char *delim);
 
 //Forks a program and its arguments to execvp in a child process. Returns -1 if unsuccessful. 
 int fork_existing_program(char *av[]);
+
+//Ignore signals
+void ignore_signals();
+
+//Reset signals
+void reset_signals();

@@ -38,10 +38,12 @@
 #include "functions.h"
 #include "batch.h"
 
+#define	MAX_SIZE	1024
+
 int main(int ac, char *av[]) {
 	signal(SIGINT, SIG_IGN);
 	int shell_execute = 1, i;
-	char user_input[200];
+	char user_input[MAX_SIZE];
 
     /* Arguments passed to the shell are treated/executed as batch
      * script files, then the shell exits */
@@ -58,11 +60,22 @@ int main(int ac, char *av[]) {
             
             get_user_input(user_input, sizeof(user_input));
 
-            if( strcmp(user_input, "exit") == 0) {
+            //Parse and check input for existing program in PATH
+			char *spaced_input[MAX_SIZE];
+			parse_user_input(user_input, spaced_input, " ");
+		
+			if( strcmp(user_input, "exit") == 0)
+            {
                 shell_execute = 0;
             }
+			else if( strcmp(spaced_input[0], "cd") == 0)
+			{
+				chdir(spaced_input[1]);
+			}
 
-            printf("%s\n", user_input);
+			ignore_signals();
+			int program = fork_existing_program(spaced_input);
+			reset_signals();
         }
     }
 	
