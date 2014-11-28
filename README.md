@@ -18,7 +18,7 @@ INDEX:
 
 TODO:
 
-[-] run executable files - Bryan (Functions Drafted, Needs Testing/Documentation)
+[x] run executable files - Bryan (Functions Drafted, Needs Testing/Documentation)
 
 [-] passing keyboard signals - Bryan (Shell ignores CTRL-C)
 
@@ -26,9 +26,9 @@ TODO:
 
 [ ] control structure support - not taken
 
-[ ] cd command - not taken
+[x] cd command - Bryan
 
-[ ] pwd command - not taken
+[x] pwd command - Bryan
 
 [ ] local variables - not taken
 
