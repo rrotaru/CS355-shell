@@ -49,7 +49,7 @@ int main(int ac, char *av[]) {
      * script files, then the shell exits */
     if (ac > 1) {
         /* run batch script */
-        for (i = 2; i < ac; i++) {
+        for (i = 1; i < ac; i++) {
             batch_execute(av[i]);
         }
     } else {
