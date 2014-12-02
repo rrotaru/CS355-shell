@@ -11,6 +11,8 @@ The shell is called NOVAshell.
 
 **test/** directory is for unit tests
 
+**bin/** directory for binary files (lab files) that we should be able to execute
+
 INDEX:
 
 [-] In progress
@@ -24,13 +26,13 @@ TODO:
 
 [-] batch script support - Robert (work in progress)
 
-[ ] control structure support - not taken
+[-] control structure support - Robert (work in progress)
 
 [x] cd command - Bryan
 
 [x] pwd command - Bryan
 
-[ ] local variables - not taken
+[ ] local variables - Robert (not started)
 
 [ ] shell redirection (<, >, <<, >>) - not taken
 

@@ -36,7 +36,7 @@
 #include <signal.h>
 #include <string.h>
 #include "functions.h"
-#include "batch.h"
+#include "robslibs.h"
 
 #define MAX_SIZE    1024
 
@@ -78,6 +78,7 @@ int main(int ac, char *av[]) {
                 int program = fork_existing_program(spaced_input);
                 reset_signals();
             }
+        }
     }
     
     return EXIT_SUCCESS;

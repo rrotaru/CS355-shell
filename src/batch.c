@@ -1,6 +1,6 @@
 /* Batch file execution support,
  * file to string operations
- * additional features
+ * 
  * 
  * Author: Robert Rotaru
  */
