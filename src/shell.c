@@ -40,7 +40,7 @@
 
 #define MAX_SIZE    1024
 
-int main(int ac, char *av[]) {
+int main(int ac, char *av[], char **envp) {
     signal(SIGINT, SIG_IGN);
     int shell_execute = 1, i;
     char user_input[MAX_SIZE];
@@ -54,6 +54,8 @@ int main(int ac, char *av[]) {
         }
     } else {
 
+        init_msg();
+
         /* If no arguments, run interactively */
         while(shell_execute) {
             print_shell_prompt();       
@@ -61,6 +63,7 @@ int main(int ac, char *av[]) {
             get_user_input(user_input, sizeof(user_input));
 
             //Parse and check input for existing program in PATH
+            //TODO: Also check for existing program in project/bin/ directory (lab programs)
             char *spaced_input[MAX_SIZE];
             parse_user_input(user_input, spaced_input, " ");
         

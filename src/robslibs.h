@@ -2,6 +2,7 @@
  *
  *
  */
+#define execute(args) fork_existing_program(args)
 
 /* Reads a file into a buffer and returns the number of characters read
  * REMEMBER to free() buffer after finishing! */
@@ -14,3 +15,9 @@ size_t trimwhitespace(char *out, size_t len, const char *str);
 void batch_execute(char* str);
 
 
+int is_control(char *s);
+int do_control(char **args);
+int is_ok(void);
+
+
+int init_msg(void);

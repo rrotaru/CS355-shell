@@ -8,14 +8,16 @@
 #include <sys/wait.h>
 #include <signal.h>
 #include <stdlib.h>
+#include <libgen.h>
 
 void print_shell_prompt()
 {
-	char wrk[1024];
-	char host[1024];
+	char absolute_path[1024], host[1024], *dir, *user;
+    user = getenv("USER");
 	gethostname(host, sizeof(host));
-	getcwd(wrk, sizeof(wrk));
-	printf("%s@%s:%s $ ", "nova", host, wrk);
+	getcwd(absolute_path, sizeof(absolute_path));
+    dir = basename(absolute_path);
+	printf("%s@%s %s/ $", user, host, dir);
 
 	return;
 }
