@@ -26,7 +26,7 @@ TODO:
 
 [-] batch script support - Robert (work in progress)
 
-[-] control structure support - Robert (work in progress)
+[x] control structure support - Robert (finished, but no multiline support -> that's an entirely different feature)
 
 [x] cd command - Bryan
 

@@ -42,7 +42,7 @@
 
 int main(int ac, char *av[], char **envp) {
     signal(SIGINT, SIG_IGN);
-    int shell_execute = 1, i;
+    int shell_execute = 1, return_val, i;
     char user_input[MAX_SIZE];
 
     /* Arguments passed to the shell are treated/executed as batch
@@ -66,7 +66,7 @@ int main(int ac, char *av[], char **envp) {
             //TODO: Also check for existing program in project/bin/ directory (lab programs)
             char *spaced_input[MAX_SIZE];
             parse_user_input(user_input, spaced_input, " ");
-        
+
             if( strcmp(user_input, "exit") == 0)
             {
                 shell_execute = 0;
@@ -77,10 +77,12 @@ int main(int ac, char *av[], char **envp) {
             }
             else
             {
-                ignore_signals();
-                int program = fork_existing_program(spaced_input);
-                reset_signals();
+                // Why do we want to ignore signals here???
+                //ignore_signals();
+                return_val = process(spaced_input);
+                //reset_signals();
             }
+
         }
     }
     
