@@ -22,7 +22,9 @@ int process(char **args) {
     } else if (is_control(args[0])) {
         return_val = do_control(args);
     } else if (is_ok()) {
-        return_val = execute(args);
+        if (!internal(args, &return_val)) {
+            return_val = execute(args);
+        }
     }
     return return_val;
 }

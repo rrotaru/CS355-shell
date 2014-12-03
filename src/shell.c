@@ -67,6 +67,7 @@ int main(int ac, char *av[], char **envp) {
             char *spaced_input[MAX_SIZE];
             parse_user_input(user_input, spaced_input, " ");
 
+            /* this has been moved to interals.c
             if( strcmp(user_input, "exit") == 0)
             {
                 shell_execute = 0;
@@ -76,13 +77,11 @@ int main(int ac, char *av[], char **envp) {
                 chdir(spaced_input[1]);
             }
             else
-            {
-                // Why do we want to ignore signals here???
-                //ignore_signals();
-                return_val = process(spaced_input);
-                //reset_signals();
-            }
-
+            { */
+            // Why do we want to ignore signals here???
+            ignore_signals();
+            return_val = process(spaced_input);
+            reset_signals();
         }
     }
     

@@ -9,6 +9,7 @@
 #include <signal.h>
 #include <stdlib.h>
 #include <libgen.h>
+#include "robslibs.h"
 
 void print_shell_prompt()
 {
@@ -38,16 +39,52 @@ void get_user_input(char s[], int size)
 
 void parse_user_input(char s[], char *spaced[], char *delim)
 {
-	char *token;
-        token = strtok(s, delim);
+	char *token, *tokenptr;
+    token = strtok_r(s, delim, &tokenptr);
 
 	int k = 0;
 
 	while( token != NULL )
 	{
-		spaced[k] = token;
-		k = k + 1;
-		token = strtok(NULL, delim);
+        char* quoteptr;
+        // If it is a quoted string, keep it as one long token
+        if ((quoteptr = strchr(token, '"')) != NULL) {
+            char *str = malloc(sizeof(char) * MAX_SIZE);
+            strcat(str, token);
+            token = strtok_r(NULL, delim, &tokenptr);
+            while (token[strlen(token)-1] != '"') {
+                strcat(str, " ");
+                strcat(str, token);
+                token = strtok_r(NULL, delim, &tokenptr);
+            }
+            strcat(str, " ");
+            strcat(str,token);
+            quoteptr = strchr(str, '"');
+            while(*quoteptr != '\0') {
+                *quoteptr = *(quoteptr+1);
+                quoteptr++;
+            }
+            str[strlen(str)-1] = '\0';
+            spaced[k] = str;
+            k++;
+        }
+        // If it is a variable, expand it
+        else if (token[0] == '$') {
+            char* expanded, *expandedptr;
+            expanded = get_var(token+1);
+            token = strtok_r(expanded, delim, &expandedptr);
+            while (token != NULL) {
+                spaced[k] = token;
+                k++;
+                token = strtok_r(NULL, delim, &expandedptr);
+            }
+            free(expanded);
+        // Otherwise just eat it like the other tokens 
+        } else {
+		    spaced[k] = token;
+            k++;
+        }
+		token = strtok_r(NULL, delim, &tokenptr);
 	}
 	
 	spaced[k] = NULL;

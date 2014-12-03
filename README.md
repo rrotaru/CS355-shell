@@ -32,7 +32,7 @@ TODO:
 
 [x] pwd command - Bryan
 
-[ ] local variables - Robert (not started)
+[x] local variables - Robert (finished)
 
 [ ] shell redirection (<, >, <<, >>) - not taken
 
