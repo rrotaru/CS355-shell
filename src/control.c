@@ -8,8 +8,6 @@
 #include "robslibs.h"
 #include "functions.h"
 
-#define MAX_SIZE 1024
-
 enum states { ENTER_IF, WANT_THEN, THEN_BLOCK, ELSE_BLOCK };
 enum results { SUCCESS, FAIL };
 static int if_state = ENTER_IF;
@@ -53,8 +51,8 @@ int is_control(char *s) {
 }
 
 int do_control(char **args) {
-    char *cmd = args[0], *subexpr[MAX_SIZE];
-    int return_val = -1, i;
+    char *cmd = args[0];
+    int return_val = -1;
 
     /* if we're in the 'IF' block */
     if (strcmp(cmd, "if") == 0) {
@@ -63,7 +61,8 @@ int do_control(char **args) {
             fprintf(stderr, "control structure syntax error: unexpected if\n");
             return_val = -1;
         } else {
-            i = 1;
+            int i = 1;
+            char *subexpr[MAX_SIZE];
             /* separate and evalute the entire expression between if and then */
             while (strcmp(args[i], "then") != 0) {
                 if (is_control(args[i])) {
@@ -83,7 +82,8 @@ int do_control(char **args) {
         if (if_state != WANT_THEN) {
             return_val = syntax_error("unexpected then");
         } else {
-            i = 1;
+            int i = 1;
+            char *subexpr[MAX_SIZE];
             /* separate and evalute the entire expression between then and either fi or else */
             while ((strcmp(args[i], "fi") != 0) && (strcmp(args[i], "else") != 0)) {
                 if (is_control(args[i])) {
@@ -102,7 +102,8 @@ int do_control(char **args) {
         if (if_state != THEN_BLOCK) {
             return_val = syntax_error("unexpected else");
         } else {
-            i = 1;
+            int i = 1;
+            char *subexpr[MAX_SIZE];
             /* separate and evalute the entire expression between else and fi */
             while (strcmp(args[i], "fi") != 0) {
                 if (is_control(args[i])) {

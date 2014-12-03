@@ -24,7 +24,7 @@ TODO:
 
 [-] passing keyboard signals - Bryan (Shell ignores CTRL-C)
 
-[-] batch script support - Robert (work in progress)
+[x] batch script support - Robert (finished, check out test file in the test/ directory)
 
 [x] control structure support - Robert (finished, but no multiline support -> that's an entirely different feature)
 

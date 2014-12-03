@@ -11,6 +11,7 @@
 #include <string.h>
 #include <ctype.h>
 #include "functions.h"
+#include "robslibs.h"
 
 /* read file into string buffer. returns number of chars read
  * REMEMBER to free() buffer after finishing */
@@ -76,11 +77,11 @@ size_t trimwhitespace(char *out, size_t len, const char *str) {
 
 /* execute a number of commands from a file */
 void batch_execute(char* filename) {
-    char *str, *command, *trimmedcommand;
+    char *str, *command, *trimmedcommand, *tokenptr;
     size_t size;
 
     if ((file_read(filename, &str)) > 0) {
-        command = strtok(str, ";\n");
+        command = strtok_r(str, ";\n", &tokenptr);
         while (command != NULL) {
             size = strlen(command) + 1;
             trimmedcommand = malloc(sizeof(char) * size);
@@ -89,12 +90,15 @@ void batch_execute(char* filename) {
             /* if not a comment and not an empty string */
             if (size > 1 && trimmedcommand[0] != '#') {
                 /* TODO: execute command */
-                printf("COMMAND: %s (todo: execute this)\n", trimmedcommand); //replace this
-            } else { printf("COMMENT: %s (todo: ignore)\n", trimmedcommand); }
+                char *tokenizedcommand[MAX_SIZE];
+                parse_user_input(trimmedcommand, tokenizedcommand, " ");
+                
+                process(tokenizedcommand);
+            } 
             
             /* get next command */
             free(trimmedcommand);
-            command = strtok(NULL, ";\n");
+            command = strtok_r(NULL, ";\n",&tokenptr);
         }
     }
     free(str);
