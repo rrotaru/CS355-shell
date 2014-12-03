@@ -93,7 +93,7 @@ void parse_user_input(char s[], char *spaced[], char *delim)
 
 int fork_existing_program(char *av[])
 {
-		pid_t child_pid;
+	pid_t child_pid;
         int child;
         child_pid = fork();
 
