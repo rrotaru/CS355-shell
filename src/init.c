@@ -11,7 +11,6 @@
 int init_msg(void) {
 
     int i;
-    struct ttysize ts;
     char *msg = "NOVAshell version 0.1a\n"
                 "Built by Bryan Bigelow, Robert Rotaru, Joseph Boling\n"
                 "CS355 Project at Central Connecticut State University\n"
@@ -19,7 +18,6 @@ int init_msg(void) {
                 "GNU General Public License (GPL) v3.0 and is available\n"
                 "on GitHub at https://github.com/rrotaru/CS355-shell\n\n";
 
-    ioctl(0, TIOCGSIZE, &ts);
     printf("\033c"); // Clears/resets the terminal window
     printf("%s", msg); // Prints our init message
     return EXIT_SUCCESS;

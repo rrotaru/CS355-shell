@@ -79,4 +79,30 @@ void piping(int num, char** cmds){
     read_all(pipe_err[0], STDOUT_FILENO);
     close(pipe_err[0]);
 }
+
+int pipe_commands(char av[])
+{
+        char *pipped[1024];
+        parse_user_input(av, pipped, "|");
+        int pfds[2];
+        pipe(pfds);
+        if (!fork()) {
+                close(1);       /* close normal stdout */
+                dup(pfds[1]);   /* make stdout same as pfds[1] */
+                close(pfds[0]); /* we don't need this */
+                char *spaced[1024];
+                parse_user_input(pipped[0], spaced, " ");
+                execvp(spaced[0], spaced);
+        }
+        else
+        {
+                close(0);       /* close normal stdin */
+                dup(pfds[0]);   /* make stdin same as pfds[0] */
+                close(pfds[1]); /* we don't need this */
+                char *spaced[1024];
+                parse_user_input(pipped[1], spaced, " ");
+                execvp(spaced[0], spaced);
+        }
+        return 0;
+}
 	
